@@ -5,6 +5,7 @@ library('ggplot2')
 print("Generating bar graph per file");
 
 source("read-json-data.R")
+source("fte-theme.R")
 
 millis_in_nano <- 10000000
 
@@ -54,7 +55,8 @@ rownames(bar_graph_data_frame) <- 1:nrow(bar_graph_data_frame)
 plot <- ggplot(bar_graph_data_frame, aes(x = bar_graph_data_frame[["inputFile"]], y = bar_graph_data_frame[["mean"]], fill = algorithm))
 plot <- plot + geom_bar(stat = "identity", position = position_dodge())
 plot <- plot + geom_errorbar(aes(ymax = bar_graph_data_frame[["max"]], ymin = bar_graph_data_frame[["min"]]), position = position_dodge(), stat = "identity")
-plot <- plot + scale_y_log10()
-plot <- plot + labs(x="Input File", y="Mean Processing Time (ms)", title="Algorithm Mean Processing Times")
+plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
+plot <- plot + labs(x = "Input File", y = "Mean Processing Time (ms)", title = "Algorithm Mean Processing Times")
+plot <- plot + fte_theme()
 
 ggsave("graphs/bar_graph_mean_per_file.png", dpi=1200, width=10, height=3)
