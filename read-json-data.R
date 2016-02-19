@@ -18,12 +18,12 @@ read_json_data <- function(file_ids) {
 
     print(paste("Read in", length_of_data, "objects."))
 
-    ids <- c()
-    algorithms <- c()
-    runIds <- c()
-    elapseds <- c()
-    inputIds <- c()
-    inputFiles <- c()
+    ids <- numeric(length_of_data)
+    algorithms <- character(length_of_data)
+    runIds <- character(length_of_data)
+    elapseds <- numeric(length_of_data)
+    inputIds <- character(length_of_data)
+    inputFiles <- character(length_of_data)
 
     for (i in 1:length_of_data) {
         ids[[i]] <- i
