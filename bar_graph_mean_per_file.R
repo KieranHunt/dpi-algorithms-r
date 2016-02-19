@@ -9,7 +9,7 @@ source("fte-theme.R")
 
 millis_in_nano <- 10000000
 
-files <- c("3bb511f1", "5dfec1c2", "b564dd38", "f77bf22")
+files <- c("51e6a4c8")
 
 data_frame <- read_json_data(files)
 
@@ -61,4 +61,4 @@ plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 
 plot <- plot + labs(x = "Input File", y = "Mean Processing Time (ms)", title = "Algorithm Mean Processing Times")
 plot <- plot + fte_theme()
 
-ggsave("graphs/bar_graph_mean_per_file.png", dpi=1200, width=10, height=3)
+ggsave("graphs/bar_graph_mean_per_file.png", dpi=1200, width=10, height=6)
