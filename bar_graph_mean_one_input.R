@@ -24,8 +24,6 @@ input <- command_line_args[1]
 
 data_frame <- read_json_data(files)
 
-plot <- ggplot()
-
 bar_graph_algorithms <- unique(data_frame[c("algorithm")])[,"algorithm"]
 bar_graph_input_files_unique <- unique(data_frame[c("inputFile")])[,"inputFile"]
 bar_graph_means <- numeric(length(bar_graph_algorithms))

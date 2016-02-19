@@ -17,8 +17,6 @@ if (length(files) == 0) {
 
 data_frame <- read_json_data(files)
 
-plot <- ggplot()
-
 bar_graph_algorithms <- unique(data_frame[c("algorithm")])[,"algorithm"]
 bar_graph_input_files_unique <- unique(data_frame[c("inputFile")])[,"inputFile"]
 
