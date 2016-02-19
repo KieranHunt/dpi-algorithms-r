@@ -8,7 +8,6 @@ source("read-json-data.R")
 source("fte-theme.R")
 
 millis_in_nano <- 10000000
-input_pre <- "resources/"
 
 command_line_args <- commandArgs(trailingOnly = TRUE)
 
@@ -19,9 +18,7 @@ if (num_args < 2) {
 }
 
 files <- command_line_args[2:num_args]
-input_file_name <- command_line_args[1]
-
-input_file_name_full = paste(input_pre, input_file_name, sep = "")
+input_file_name_full <- command_line_args[1]
 
 data_frame <- read_json_data(files)
 data_frame <- data_frame[data_frame[["inputFile"]] == input_file_name_full,]
@@ -31,6 +28,8 @@ number_unique_ids <- length(scatter_input_ids)
 scatter_means <- numeric(number_unique_ids)
 scatter_lengths <- numeric(number_unique_ids)
 scatter_ids <- character(number_unique_ids)
+
+print(paste("Found", number_unique_ids, "unique input IDs."))
 
 for (i in 1:number_unique_ids) {
 
@@ -51,13 +50,14 @@ for (i in 1:number_unique_ids) {
 scatter_data_frame = data.frame(scatter_ids, scatter_means, scatter_lengths)
 names(scatter_data_frame) <- c("inputId", "mean", "length")
 
+scatter_data_frame <- scatter_data_frame[complete.cases(scatter_data_frame), ]
+
 print("Generating Scatter Plot")
 
 plot <- ggplot(scatter_data_frame, aes(x = length, y = mean))
 plot <- plot + geom_point(color="#c0392b")
 plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
 plot <- plot + scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
-plot <- plot + geom_smooth(alpha=0.25, color="black", fill="black")
 plot <- plot + fte_theme()
 
 ggsave("graphs/scatter_mean_time_vs_input_length.png", dpi = 1200, width = 8, height = 6, type = "cairo")

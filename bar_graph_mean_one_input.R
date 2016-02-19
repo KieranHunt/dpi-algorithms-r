@@ -9,8 +9,6 @@ source("fte-theme.R")
 
 millis_in_nano <- 10000000
 
-input_pre <- "resources/"
-
 command_line_args <- commandArgs(trailingOnly = TRUE)
 
 num_args <- length(command_line_args)
@@ -31,7 +29,7 @@ bar_graph_mins <- numeric(length(bar_graph_algorithms))
 bar_graph_maxes <- numeric(length(bar_graph_algorithms))
 
 for (algorithm in bar_graph_algorithms) {
-    data_frame_subset <- data_frame[data_frame[["algorithm"]] == algorithm & data_frame[["inputFile"]] == paste(input_pre, input, sep = ""), ]
+    data_frame_subset <- data_frame[data_frame[["algorithm"]] == algorithm & data_frame[["inputFile"]] == input, ]
     elapsed <- data_frame_subset[, "elapsed"] / millis_in_nano
 
     if (length(elapsed) == 0) {
