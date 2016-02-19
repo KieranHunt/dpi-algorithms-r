@@ -50,6 +50,8 @@ for (inputFile in bar_graph_input_files_unique) {
 bar_graph_data_frame <- data.frame(id = bar_graph_algorithms, bar_graph_mins, bar_graph_means, bar_graph_maxes, bar_graph_input_files)
 bar_graph_data_frame <- bar_graph_data_frame[complete.cases(bar_graph_data_frame), ]
 names(bar_graph_data_frame) <- c("algorithm", "min", "mean", "max", "inputFile")
+
+bar_graph_data_frame <- bar_graph_data_frame[with(bar_graph_data_frame, order(-mean, algorithm)), ]
 rownames(bar_graph_data_frame) <- 1:nrow(bar_graph_data_frame)
 
 plot <- ggplot(bar_graph_data_frame, aes(x = bar_graph_data_frame[["inputFile"]], y = bar_graph_data_frame[["mean"]], fill = algorithm))
