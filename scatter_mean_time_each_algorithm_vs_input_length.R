@@ -38,7 +38,7 @@ number_unique_ids <- length(unique_input_ids)
 unique_algorithms <- unique(c(as.character(data_frame[["algorithm"]])))
 number_unique_algorithms <- length(unique_algorithms)
 
-print(paste("Found", number_unique_ids, " unique IDs. Found", number_unique_algorithms, "unique algorithms."))
+print(paste("Found", number_unique_ids, "unique IDs. Found", number_unique_algorithms, "unique algorithms."))
 
 number_scatter_points <- number_unique_ids * number_unique_algorithms
 
@@ -81,12 +81,17 @@ names(scatter_data_frame) <- c("inputId", "algorithm", "mean", "length")
 
 scatter_data_frame <- scatter_data_frame[complete.cases(scatter_data_frame), ]
 
+number_of_points <- nrow(scatter_data_frame)
+
+print(paste("Generated", number_of_points, "datapoints."))
+
 print("Generating Scatter Plot")
 
 plot <- ggplot(scatter_data_frame)
 plot <- plot + geom_point(aes(x = length, y = mean, color = algorithm), alpha=0.50)
 plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
 plot <- plot + scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
+plot <- plot + labs(x = "Length of Input", y = "Mean Processing Time (ms)", title = paste("Mean Processing Time per Algorithm vs Input Length for", input_file_name_full))
 plot <- plot + fte_theme()
 
 ggsave("graphs/scatter_mean_time_each_algorithm_vs_input_length.png", dpi = 1200, width = 8, height = 6, type = "cairo")

@@ -59,9 +59,10 @@ print(paste("Generated", number_of_points, "datapoints."))
 print("Generating Scatter Plot")
 
 plot <- ggplot(scatter_data_frame)
-plot <- plot + geom_point(aes(x = length, y = mean), color = "#c0392b", alpha = 1 / (number_of_points / 10))
+plot <- plot + geom_point(aes(x = length, y = mean), color = "#c0392b", alpha = 0.2)
 plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
 plot <- plot + scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
+plot <- plot + labs(x = "Length of Input", y = "Mean Processing Time (ms)", title = paste("Mean Processing time vs Input Length for", input_file_name_full))
 plot <- plot + fte_theme()
 
 ggsave("graphs/scatter_mean_time_vs_input_length.png", dpi = 1200, width = 8, height = 6, type = "cairo")
