@@ -11,6 +11,7 @@ Run each of the following using Rscript (Linux/OSX):
  - `./scatter_mean_time_vs_input_length.R input_file file_id ...`
  - `./scatter_mean_time_each_algorithm_vs_input_length.R input_file file_id ...`
  - `./line_mean_processing_time_per_algorithm_and_run_id_vs_input_length.R input_file file_id ...`
+ - `./input_length_summary.R input_file file_id ...`
 
 ## Some graphs
 

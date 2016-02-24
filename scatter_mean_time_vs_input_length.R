@@ -33,6 +33,8 @@ print(paste("Found", number_unique_ids, "unique input IDs."))
 
 for (i in 1:number_unique_ids) {
 
+    print(paste(i, "/", number_unique_ids))
+
     id = scatter_input_ids[i]
 
     data_frame_subset <- data_frame[data_frame[["inputId"]] == id, ]
@@ -56,12 +58,23 @@ number_of_points <- nrow(scatter_data_frame)
 
 print(paste("Generated", number_of_points, "datapoints."))
 
+print(paste("Removing rows not within one standard deviation of the mean."))
+
+scatter_standard_deviation <- sd(scatter_data_frame[["mean"]])
+scatter_mean <- mean(scatter_data_frame[["mean"]])
+
+scatter_data_frame <- scatter_data_frame[scatter_data_frame[["mean"]] < scatter_mean + scatter_standard_deviation & scatter_mean - scatter_standard_deviation < scatter_data_frame[["mean"]], ]
+
+print(paste("Removed", number_of_points - nrow(scatter_data_frame), "rows."))
+
+number_of_points <- nrow(scatter_data_frame)
+
 print("Generating Scatter Plot")
 
 plot <- ggplot(scatter_data_frame)
 plot <- plot + geom_point(aes(x = length, y = mean), color = "#c0392b", alpha = 0.2)
+plot <- plot + geom_smooth(aes(x = length, y = mean), alpha=0.25, color="black", fill="black")
 plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
-plot <- plot + scale_x_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
 plot <- plot + labs(x = "Length of Input", y = "Mean Processing Time (ms)", title = paste("Mean Processing time vs Input Length for", input_file_name_full))
 plot <- plot + fte_theme()
 
