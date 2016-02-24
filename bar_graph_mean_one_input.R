@@ -56,7 +56,6 @@ rownames(bar_graph_data_frame) <- 1:nrow(bar_graph_data_frame)
 
 plot <- ggplot(bar_graph_data_frame, aes(x = reorder(algorithm, bar_graph_data_frame[["mean"]]), y = bar_graph_data_frame[["mean"]], fill = algorithm))
 plot <- plot + geom_bar(position = "identity", stat = "identity")
-plot <- plot + scale_y_log10(breaks = scales::trans_breaks("log10", function(x) 10^x), labels = scales::trans_format("log10", scales::math_format(10^.x)))
 plot <- plot + labs(x = "Algorithm", y = "Mean Processing Time (ms)", title = paste("Algorithm Mean Processing Times for", input))
 plot <- plot + fte_theme()
 plot <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
