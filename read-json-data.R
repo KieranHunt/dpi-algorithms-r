@@ -25,6 +25,7 @@ read_json_data <- function(file_ids) {
     inputIds <- character(length_of_data)
     inputFiles <- character(length_of_data)
     inputLengths <- numeric(length_of_data)
+    foundCount <- numeric(length_of_data)
 
     for (i in 1:length_of_data) {
         ids[[i]] <- i
@@ -34,12 +35,13 @@ read_json_data <- function(file_ids) {
         inputIds[[i]] <- raw_data[[i]][["inputID"]]
         inputFiles[[i]] <- raw_data[[i]][["inputFile"]]
         inputLengths[[i]] <- raw_data[[i]][["inputLength"]]
+        foundCount[[i]] <- length(raw_data[[i]][["locations"]])
     }
 
     print(paste("Generating data frame"))
 
-    data_frame = data.frame(id=ids, algorithms, runIds, elapseds, inputIds, inputFiles, inputLengths)
-    names(data_frame) <- c("id", "algorithm", "runId", "elapsed", "inputId", "inputFile", "inputLength")
+    data_frame = data.frame(id=ids, algorithms, runIds, elapseds, inputIds, inputFiles, inputLengths, foundCount)
+    names(data_frame) <- c("id", "algorithm", "runId", "elapsed", "inputId", "inputFile", "inputLength", "found")
 
     print(paste("Generated dataframe of length", nrow(data_frame)))
 
